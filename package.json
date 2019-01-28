@@ -1,6 +1,6 @@
 {
   "name": "webpack-expose-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "expose some modules for browser using.",
   "main": "lib/index.js",
   "scripts": {
