@@ -1,6 +1,4 @@
 import path from 'path';
-import NormalModule from 'webpack/lib/NormalModule';
-import DelegatedModule from 'webpack/lib/DelegatedModule';
 
 export default class WebpackExposePlugin {
     constructor (options) {
@@ -15,14 +13,7 @@ export default class WebpackExposePlugin {
                     if (module.userRequest) {
                         Object.keys(this.options).some(key => {
                             if (this.options[key] === path.resolve(module.userRequest)) {
-                                if (module instanceof NormalModule) {
-                                    exposeStack.push(`window.${key} = __webpack_require__('${module.id}');`);
-                                    return true;
-                                }
-                                if (module instanceof DelegatedModule) {
-                                    exposeStack.push(`window.${key} = __webpack_require__('${module.id}')('${module.delegateData.id}');`);
-                                    return true;
-                                }
+                                exposeStack.push(`window.${key} = __webpack_require__('${module.id}');`);
                             }
                             return false;
                         });

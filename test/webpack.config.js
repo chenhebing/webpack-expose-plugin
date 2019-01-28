@@ -1,10 +1,11 @@
 import ExposePlugin from '../src/index';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { webpackCommonPlugins } from './webpack.dll';
 import path from 'path';
 
 export default {
     entry: path.join(__dirname, 'index.js'),
-    mode: 'development',
+    mode: 'production',
     output: {
         path: path.join(__dirname, 'dist'),
         filename: '[name].js',
@@ -28,7 +29,8 @@ export default {
             filename: `index.html`,
             template: 'test/layout.html',
             inject: true
-        })
+        }),
+        ...webpackCommonPlugins
     ],
     devServer: {
         contentBase: path.join(__dirname, 'dist')
