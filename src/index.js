@@ -10,17 +10,17 @@ export default class WebpackExposePlugin {
     apply (compiler) {
         compiler.hooks.compilation.tap('expose-require-plugin-compiler', (compilation) => {
             compilation.mainTemplate.hooks.beforeStartup.tap('expose-require-plugin-maintemplate', (source) => {
-                const exposeMap = {};
+                const exposeStack = [];
                 compilation.modules.forEach(module => {
                     if (module.userRequest) {
                         Object.keys(this.options).some(key => {
                             if (this.options[key] === path.resolve(module.userRequest)) {
                                 if (module instanceof NormalModule) {
-                                    exposeMap[key] = `window.${key} = __webpack_require__('${module.id}');`;
+                                    exposeStack.push(`window.${key} = __webpack_require__('${module.id}');`);
                                     return true;
                                 }
                                 if (module instanceof DelegatedModule) {
-                                    exposeMap[key] = `window.${key} = __webpack_require__('${module.sourceRequest}')('${module.delegateData.id}');`;
+                                    exposeStack.push(`window.${key} = __webpack_require__('${module.sourceRequest}')('${module.delegateData.id}');`);
                                     return true;
                                 }
                             }
@@ -28,7 +28,7 @@ export default class WebpackExposePlugin {
                         });
                     }
                 });
-                const exposeStr = Object.values(exposeMap).join('\n');
+                const exposeStr = exposeStack.join('\n');
                 return source + exposeStr;
             });
         });
