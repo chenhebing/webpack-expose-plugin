@@ -4,7 +4,7 @@
   "description": "expose some modules for browser using.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node examples/start",
+    "test": "node test/start.js",
     "prepare": "rm -rf lib && babel src --out-dir lib"
   },
   "dependencies": {},
