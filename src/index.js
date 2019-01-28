@@ -20,7 +20,7 @@ export default class WebpackExposePlugin {
                                     return true;
                                 }
                                 if (module instanceof DelegatedModule) {
-                                    exposeStack.push(`window.${key} = __webpack_require__('${module.sourceRequest}')('${module.delegateData.id}');`);
+                                    exposeStack.push(`window.${key} = __webpack_require__('${module.id}')('${module.delegateData.id}');`);
                                     return true;
                                 }
                             }
